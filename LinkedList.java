@@ -130,41 +130,94 @@ public class LinkedList {
   }
 
   public static int get(LinkedListNode head, int index) {
+    // Get the value of the indexth node in the linked list. If the index is invalid, return -1.
     LinkedListNode curr = head;
     for (int i = 0; i < index; i++) curr = curr.next;
+    
     return curr.data;
-  }
-
-  public static LinkedListNode insertAtHead(LinkedListNode head, int data) {
+}
+    
+  public static LinkedListNode addAtHead(LinkedListNode head, int data) {
+    // Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+    
     LinkedListNode newNode = new LinkedListNode(data);
     newNode.next = head;
-    head = newNode;
+    return newNode;
+}
+
+  public static LinkedListNode addAtTail(LinkedListNode head, int data) {
+    // Append a node of value val as the last element of the linked list.
+    LinkedListNode newNode = new LinkedListNode(data);
+    
+    LinkedListNode curr = head;
+    if (curr == null) {
+        return newNode;
+    }
+    while (curr.next != null) curr = curr.next;
+    curr.next = newNode;
+    return head;
+}
+
+  public static LinkedListNode addAtIndex(LinkedListNode head, int index, int data) {
+    // Add a node of value val before the indexth node in the linked list. If index equals the length of the linked list, the node will be appended to the end of the linked list. If index is greater than the length, the node will not be inserted.
+    
+    int size = getSize(head);
+
+    if (index > size) return head;
+
+    if (index == 0) {
+      return addAtHead(head, data);
+    }
+
+    if (index == size) {
+      return addAtTail(head, data);
+    }
+    
+    LinkedListNode newNode = new LinkedListNode(data);
+    
+    LinkedListNode curr = head, prev = null;
+    for (int i = 0; i < index; i++) {
+      prev = curr;
+      curr = curr.next;
+    }
+    newNode.next = curr;
+    prev.next = newNode;
     return head;
   }
 
-  public static void insertAtTail(LinkedListNode head, int data) {
-    LinkedListNode newNode = new LinkedListNode(data);
-    LinkedListNode curr = head;
-    while (curr.next != null) curr = curr.next;
-    curr.next = newNode;
+  public static LinkedListNode deleteAtHead(LinkedListNode head) {
+    if (head == null) return null;
+    else return head.next;
   }
 
-  // FIXME
-  public static void addAtIndex(LinkedListNode head, int index, int data) {
-    int size = getSize(head);
-    
-    // Add a node of value val before the indexth node in the linked list. If index equals the length of the linked list, the node will be appended to the end of the linked list. If index is greater than the length, the node will not be inserted.
-    if (index < 0 || index > size) return;
-    
-    if (index == 0) insertAtHead(head, data);
-    if (index == size) insertAtTail(head, data);
-    
-    LinkedListNode newNode = new LinkedListNode(data);
+  public static LinkedListNode deleteAtTail(LinkedListNode head) {
+    if (head == null) return null;
+    if (head.next == null) {
+      return null;
+    }
     
     LinkedListNode curr = head;
-    for (int i = 0; i < index; i++) curr = curr.next;
-    newNode.next = curr.next;
-    curr.next = newNode;
+    while (curr.next.next != null) curr = curr.next;
+    curr.next = null;
+    return head;
+  }
+
+  public static LinkedListNode deleteAtIndex(LinkedListNode head, int index) {
+    // Delete the indexth node in the linked list, if the index is valid.
+    int size = getSize(head);
+    
+    if (index < 0 || index >= size) return head;
+    if (index == 0) {
+      return deleteAtHead(head);
+    }
+    
+    LinkedListNode curr = head, prev = null;
+    for (int i = 0; i < index; i++) {
+      prev = curr;
+      curr = curr.next;
+    }
+    prev.next = curr.next;
+    return head;
   }
 
   public static boolean isPalindrome(LinkedListNode head) {
