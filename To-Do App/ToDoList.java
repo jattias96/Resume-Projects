@@ -2,11 +2,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ToDoList {
-  public class ToDo {
+  public class ToDo implements Comparable<ToDo> {
     // instance vars
     private String text;
     private String details;
     private Priority priority;
+    // private boolean done = false // should I implement it this way?
   
     // constructors
     public ToDo(String text, String details, Priority priority) {
@@ -48,6 +49,14 @@ public class ToDoList {
   
     public void setToDoDetails(String details) {
       this.details = details;
+    }
+
+    @Override
+    public int compareTo(ToDoList.ToDo o) {
+      if (this.priority == o.priority) return 0;
+      else if (this.priority == Priority.HIGH && (o.priority == Priority.MEDIUM || o.priority == Priority.LOW)) return 1;
+      else if (this.priority == Priority.MEDIUM && o.priority == Priority.LOW) return 1;
+      else return -1;
     }
   }  
   
@@ -129,7 +138,7 @@ public class ToDoList {
 
   // TODO
   public void sortHighToLowPriority() {
-
+    
   }
 
   // TODO
@@ -137,18 +146,35 @@ public class ToDoList {
 
   }
 
-  // TODO
   public void clearCompleted() {
-
+    this.completedToDos.clear();
   }
 
-  // TODO
+  public void clearNonCompleted() {
+    this.toDoList.clear();
+  }
+
   public void clearAll() {
-
+    this.toDoList.clear();
+    this.completedToDos.clear();
   }
 
-  // TODO
+  public void markCompleted(int index) { // index begins with 1
+    index--;
+
+    ToDo removedToDo = toDoList.remove(index);
+    completedToDos.add(removedToDo);
+  }
+
   public void markAllCompleted() {
-    
+    while (!toDoList.isEmpty()) {
+      completedToDos.add(toDoList.removeLast());
+    }
+  }
+
+  public void markAllNotCompleted() {
+    while (!completedToDos.isEmpty()) {
+      toDoList.add(completedToDos.removeLast());
+    }
   }
 }
