@@ -1,16 +1,6 @@
-/*
-
-Merge two pre-sorted arrays into one combined, sorted array.
-
-Bonus:
-
-What if we wanted to merge several sorted arrays?
-Write a method that takes as an input an array of sorted arrays and
-outputs a single sorted array with all the items from each array.
-
-*/
-
 public class MergeArrays {
+  
+  // Merge two pre-sorted arrays into one combined, sorted array.
   public static int[] mergeTwoArrays(int[] arr1, int[] arr2) {
     int[] finalArr = new int[arr1.length + arr2.length];
 
@@ -45,6 +35,11 @@ public class MergeArrays {
     return finalArr;
   }
 
+
+
+  // Bonus: What if we wanted to merge several sorted arrays?
+  // Write a method that takes as an input an array of sorted arrays and
+  // outputs a single sorted array with all the items from each array.
   public static int[] mergeNArrays(int[][] arrs) {
     
   }
